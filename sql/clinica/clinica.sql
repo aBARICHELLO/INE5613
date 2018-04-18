@@ -1,28 +1,41 @@
 --SET SEARCH_PATH TO DEMO_CLINICA;
 --COMPLETAR A CRIACAO DA TABELA AMBULATORIO
 
+CREATE TABLE AMBULATORIO (
+    NUM_A           INT,
+    ANDAR           NUMERIC(3),
+    CAPACIDADE      SMALLINT
+);
+
 CREATE TABLE MEDICO (
     COD_M           INT 			PRIMARY KEY,
     NOME            VARCHAR(40)     NOT NULL,
     IDADE           SMALLINT 		NOT NULL,
     ESPECIALIDADE   CHAR(20),
     CIDADE 	        VARCHAR(30),
-    NUM_A 	        INT,			FOREIGN KEY REFERENCES NUM_A)
+    NUM_A 	        INT			    FOREIGN KEY REFERENCES NUM_A);
 
 CREATE TABLE PACIENTE(
     COD_P           INT             PRIMARY KEY,
     NOME            VARCHAR(40)     NOT NULL,
     IDADE           SMALLINT        NOT NULL,
-    CIDADE          VARCHAR(30))
+    CIDADE          VARCHAR(30));
 
 CREATE TABLE CONSULTA(
     COD_M           INT	            PRIMARY KEY REFERENCES MEDICO(COD_M),
     COD_P           INT	            REFERENCES PACIENTE(COD_P),
     DATA            DATE            PRIMARY KEY,
-    HORA            TIME            PRIMARY KEY)
+    HORA            TIME            PRIMARY KEY);
+
+-- Exercises:
 
 INSERT INTO AMBULATORIO VALUES (1, 1, 30);
---COMPLETAR A INICIALIZACAO DA TABELA AMBULATORIO
+INSERT INTO AMBULATORIO VALUES (2, 1, 50);
+INSERT INTO AMBULATORIO VALUES (3, 2, 40);
+INSERT INTO AMBULATORIO VALUES (4, 2, 25);
+INSERT INTO AMBULATORIO VALUES (5, 2, 55);
+INSERT INTO AMBULATORIO VALUES (6, 2, 10);
+INSERT INTO AMBULATORIO VALUES (7, 2, 10);
 
 INSERT INTO MEDICO VALUES ( 1, 'Joao',     40, 'ortopedista',    'Florianopolis',    1);
 INSERT INTO MEDICO VALUES ( 2, 'Maria',    42, 'oftalmologista', 'Blumenau',         2);
@@ -31,7 +44,7 @@ INSERT INTO MEDICO VALUES ( 4, 'Carlos',   28, 'ortopedista',    'Florianopolis'
 INSERT INTO MEDICO VALUES ( 5, 'Marcia',   33, 'neurologista',   'Florianopolis',    3);
 INSERT INTO MEDICO VALUES ( 6, 'Pedrinho', 38, 'infectologista', 'Blumenau',         1);
 INSERT INTO MEDICO VALUES ( 7, 'Mariana',  39, 'infectologista', 'Florianopolis', NULL);
-INSERT INTO MEDICO VALUES ( 8, 'Roberta',  50, 'neurologista',   'Joinville',       5);
+INSERT INTO MEDICO VALUES ( 8, 'Roberta',  50, 'neurologista',   'Joinville',        5);
 INSERT INTO MEDICO VALUES ( 9, 'Vanusa',   39, 'aa',             'Curitiba',      NULL);
 INSERT INTO MEDICO VALUES (10, 'Valdo',    50, 'aa',             'Curitiba',      NULL);
 
@@ -56,3 +69,5 @@ INSERT INTO CONSULTA VALUES (6,8, '2000/06/20', '20:30');
 INSERT INTO CONSULTA VALUES (6,2, '2000/06/15', '11:00');
 INSERT INTO CONSULTA VALUES (6,4, '2000/06/15', '14:00');
 INSERT INTO CONSULTA VALUES (7,2, '2000/06/10', '19:30');
+
+
