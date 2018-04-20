@@ -2,30 +2,36 @@
 --COMPLETAR A CRIACAO DA TABELA AMBULATORIO
 
 CREATE TABLE AMBULATORIO (
-    NUM_A           INT,
-    ANDAR           NUMERIC(3),
-    CAPACIDADE      SMALLINT
+    NUM_A                   INT,
+    ANDAR                   NUMERIC(3),
+    CAPACIDADE              SMALLINT,
+    PRIMARY KEY (NUM_A)
 );
 
 CREATE TABLE MEDICO (
-    COD_M           INT 			PRIMARY KEY,
-    NOME            VARCHAR(40)     NOT NULL,
-    IDADE           SMALLINT 		NOT NULL,
-    ESPECIALIDADE   CHAR(20),
-    CIDADE 	        VARCHAR(30),
-    NUM_A 	        INT			    FOREIGN KEY REFERENCES NUM_A);
+    COD_M                   INT,
+    NOME                    VARCHAR(40)     NOT NULL,
+    IDADE                   SMALLINT        NOT NULL,
+    ESPECIALIDADE           CHAR(20),
+    CIDADE 	                VARCHAR(30),
+    NUM_A 	                INT,
+    PRIMARY KEY (COD_M),
+    FOREIGN KEY (NUM_A) REFERENCES AMBULATORIO(NUM_A));
 
-CREATE TABLE PACIENTE(
-    COD_P           INT             PRIMARY KEY,
-    NOME            VARCHAR(40)     NOT NULL,
-    IDADE           SMALLINT        NOT NULL,
-    CIDADE          VARCHAR(30));
+CREATE TABLE PACIENTE (
+    COD_P                   INT             PRIMARY KEY,
+    NOME                    VARCHAR(40)     NOT NULL,
+    IDADE                   SMALLINT        NOT NULL,
+    CIDADE                  VARCHAR(30));
 
 CREATE TABLE CONSULTA(
-    COD_M           INT	            PRIMARY KEY REFERENCES MEDICO(COD_M),
-    COD_P           INT	            REFERENCES PACIENTE(COD_P),
-    DATA            DATE            PRIMARY KEY,
-    HORA            TIME            PRIMARY KEY);
+    COD_M                   INT,
+    COD_P                   INT,
+    DATA                    DATE,
+    HORA                    TIME,
+    PRIMARY KEY (COD_M, DATA, HORA),
+    FOREIGN KEY (COD_M) REFERENCES MEDICO(COD_M),
+    FOREIGN KEY (COD_P) REFERENCES PACIENTE(COD_P));
 
 -- Exercises:
 
@@ -82,8 +88,51 @@ UPDATE AMBULATORIO
    SET CAPACIDADE = '35'
  WHERE NUM_A = 1;
 
-DELETE FROM MEDICO
+DELETE
+  FROM MEDICO
  WHERE CIDADE = 'Curitiba';
 
-DELETE FROM AMBULATORIO
+DELETE
+  FROM AMBULATORIO
  WHERE CAPACIDADE = 10;
+
+SELECT NOME
+  FROM MEDICO
+ WHERE CIDADE = 'Florianopolis';
+
+SELECT COD_M
+  FROM MEDICO
+ WHERE NOME = 'Marcia';
+
+SELECT DISTINCT ESPECIALIDADE
+  FROM MEDICO;
+
+-- FIXME Data de consulta paciente Carlos
+SELECT *
+  FROM PACIENTE
+ INNER JOIN CONSULTA
+    ON CONSULTA.COD_P = PACIENTE.COD_P
+ WHERE NOME = 'Carlos'
+
+-- Nome dos pacientes do médico Pedrinho
+SELECT DISTINCT NOME
+  FROM PACIENTE
+ INNER JOIN CONSULTA
+    ON CONSULTA.COD_P = PACIENTE.COD_P
+
+-- Nome dos médicos que tem consulta marcada e as datas de suas consultas
+SELECT NOME, DATA
+  FROM MEDICO
+ INNER JOIN CONSULTA
+    ON CONSULTA.COD_M = MEDICO.COD_M
+
+-- Obter os nomes dos médicos infectologistas e andar em que atendem
+SELECT NOME
+  FROM MEDICO
+ WHERE ESPECIALIDADE = 'infectologista'
+
+-- Obter o nome dos pacientes que tem consulta marcada no ambulatorio 2
+
+-- Obter o nome de cada médico e respecdvos nomes dos pacientes que tem
+-- consulta com ele (caso o médico não tenha nenhuma consulta, o nome do
+-- paciente deve ser prenchido com null).
