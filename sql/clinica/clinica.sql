@@ -110,21 +110,18 @@ SELECT DISTINCT ESPECIALIDADE
 -- FIXME Data de consulta paciente Carlos
 SELECT *
   FROM PACIENTE
- INNER JOIN CONSULTA
-    ON CONSULTA.COD_P = PACIENTE.COD_P
+ INNER JOIN CONSULTA ON CONSULTA.COD_P = PACIENTE.COD_P
  WHERE NOME = 'Carlos'
 
 -- Nome dos pacientes do médico Pedrinho
 SELECT DISTINCT NOME
   FROM PACIENTE
- INNER JOIN CONSULTA
-    ON CONSULTA.COD_P = PACIENTE.COD_P
+ INNER JOIN CONSULTA ON CONSULTA.COD_P = PACIENTE.COD_P
 
 -- Nome dos médicos que tem consulta marcada e as datas de suas consultas
 SELECT NOME, DATA
   FROM MEDICO
- INNER JOIN CONSULTA
-    ON CONSULTA.COD_M = MEDICO.COD_M
+ INNER JOIN CONSULTA ON CONSULTA.COD_M = MEDICO.COD_M
 
 -- Obter os nomes dos médicos infectologistas e andar em que atendem
 SELECT NOME
@@ -133,6 +130,6 @@ SELECT NOME
 
 -- Obter o nome dos pacientes que tem consulta marcada no ambulatorio 2
 
--- Obter o nome de cada médico e respecdvos nomes dos pacientes que tem
+-- Obter o nome de cada médico e respectivos nomes dos pacientes que tem
 -- consulta com ele (caso o médico não tenha nenhuma consulta, o nome do
 -- paciente deve ser prenchido com null).
