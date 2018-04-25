@@ -2,36 +2,36 @@
 --COMPLETAR A CRIACAO DA TABELA AMBULATORIO
 
 CREATE TABLE AMBULATORIO (
-    NUM_A                   INT,
-    ANDAR                   NUMERIC(3),
-    CAPACIDADE              SMALLINT,
-    PRIMARY KEY (NUM_A)
+	NUM_A                   INT,
+	ANDAR                   NUMERIC(3),
+	CAPACIDADE              SMALLINT,
+	PRIMARY KEY (NUM_A)
 );
 
 CREATE TABLE MEDICO (
-    COD_M                   INT,
-    NOME                    VARCHAR(40)     NOT NULL,
-    IDADE                   SMALLINT        NOT NULL,
-    ESPECIALIDADE           CHAR(20),
-    CIDADE 	                VARCHAR(30),
-    NUM_A 	                INT,
-    PRIMARY KEY (COD_M),
-    FOREIGN KEY (NUM_A) REFERENCES AMBULATORIO(NUM_A));
+	COD_M                   INT,
+	NOME                    VARCHAR(40)     NOT NULL,
+	IDADE                   SMALLINT        NOT NULL,
+	ESPECIALIDADE           CHAR(20),
+	CIDADE 	                VARCHAR(30),
+	NUM_A 	                INT,
+	PRIMARY KEY (COD_M),
+	FOREIGN KEY (NUM_A) REFERENCES AMBULATORIO(NUM_A));
 
 CREATE TABLE PACIENTE (
-    COD_P                   INT             PRIMARY KEY,
-    NOME                    VARCHAR(40)     NOT NULL,
-    IDADE                   SMALLINT        NOT NULL,
-    CIDADE                  VARCHAR(30));
+	COD_P                   INT             PRIMARY KEY,
+	NOME                    VARCHAR(40)     NOT NULL,
+	IDADE                   SMALLINT        NOT NULL,
+	CIDADE                  VARCHAR(30));
 
 CREATE TABLE CONSULTA(
-    COD_M                   INT,
-    COD_P                   INT,
-    DATA                    DATE,
-    HORA                    TIME,
-    PRIMARY KEY (COD_M, DATA, HORA),
-    FOREIGN KEY (COD_M) REFERENCES MEDICO(COD_M),
-    FOREIGN KEY (COD_P) REFERENCES PACIENTE(COD_P));
+	COD_M                   INT,
+	COD_P                   INT,
+	DATA                    DATE,
+	HORA                    TIME,
+	PRIMARY KEY (COD_M, DATA, HORA),
+	FOREIGN KEY (COD_M) REFERENCES MEDICO(COD_M),
+	FOREIGN KEY (COD_P) REFERENCES PACIENTE(COD_P));
 
 -- Exercises:
 
@@ -77,55 +77,55 @@ INSERT INTO CONSULTA VALUES (6,4, '2000/06/15', '14:00');
 INSERT INTO CONSULTA VALUES (7,2, '2000/06/10', '19:30');
 
 UPDATE MEDICO
-   SET CIDADE = 'Biguaçu'
+	 SET CIDADE = 'Biguaçu'
  WHERE CIDADE = 'Blumenal';
 
 UPDATE MEDICO
-   SET CIDADE = 'Blumenal'
+	 SET CIDADE = 'Blumenal'
  WHERE CIDADE = 'Biguaçu';
 
 UPDATE AMBULATORIO
-   SET CAPACIDADE = '35'
+	 SET CAPACIDADE = '35'
  WHERE NUM_A = 1;
 
 DELETE
-  FROM MEDICO
+	FROM MEDICO
  WHERE CIDADE = 'Curitiba';
 
 DELETE
-  FROM AMBULATORIO
+	FROM AMBULATORIO
  WHERE CAPACIDADE = 10;
 
 SELECT NOME
-  FROM MEDICO
+	FROM MEDICO
  WHERE CIDADE = 'Florianopolis';
 
 SELECT COD_M
-  FROM MEDICO
+	FROM MEDICO
  WHERE NOME = 'Marcia';
 
 SELECT DISTINCT ESPECIALIDADE
-  FROM MEDICO;
+	FROM MEDICO;
 
 -- FIXME Data de consulta paciente Carlos
 SELECT *
-  FROM PACIENTE
+	FROM PACIENTE
  INNER JOIN CONSULTA ON CONSULTA.COD_P = PACIENTE.COD_P
  WHERE NOME = 'Carlos'
 
 -- Nome dos pacientes do médico Pedrinho
 SELECT DISTINCT NOME
-  FROM PACIENTE
+	FROM PACIENTE
  INNER JOIN CONSULTA ON CONSULTA.COD_P = PACIENTE.COD_P
 
 -- Nome dos médicos que tem consulta marcada e as datas de suas consultas
 SELECT NOME, DATA
-  FROM MEDICO
+	FROM MEDICO
  INNER JOIN CONSULTA ON CONSULTA.COD_M = MEDICO.COD_M
 
 -- Obter os nomes dos médicos infectologistas e andar em que atendem
 SELECT NOME
-  FROM MEDICO
+	FROM MEDICO
  WHERE ESPECIALIDADE = 'infectologista'
 
 -- Obter o nome dos pacientes que tem consulta marcada no ambulatorio 2
