@@ -36,7 +36,8 @@ CREATE TABLE funcionarios (
 );
 
 CREATE TABLE consultas (
-    cod_m           INT                 PRIMARY KEY,
+    cod_c           SERIAL              PRIMARY KEY,
+    cod_m           INT                 REFERENCES medicos(cod_m),
     cod_p           INT                 REFERENCES pacientes(cod_p),
     data            DATE,
     hora            TIME
@@ -68,5 +69,87 @@ INSERT INTO pacientes (cod_p, nome, idade, cidade, cpf, doenca)
 INSERT INTO pacientes (cod_p, nome, idade, cidade, cpf, doenca)
      VALUES (4, 'Carlos', 38, 'Joinville', 11000110000, 'gripe');
 
-INSERT INTO consultas (cod_m, cod_p, data, hora)
-     VALUES (1, 1, '2016/10/12', '14:00');
+INSERT INTO funcionarios (cod_f, nome, idade, cidade, salario, cpf)
+     VALUES (1, 'Rita', 32, 'São José', 1200, 20000100000);
+INSERT INTO funcionarios (cod_f, nome, idade, cidade, salario, cpf)
+     VALUES (2, 'Maria', 55, 'Palhoça', 1220, 30000110000);
+INSERT INTO funcionarios (cod_f, nome, idade, cidade, salario, cpf)
+     VALUES (3, 'Carlo', 45, 'Florianópolis', 1100, 41000100000);
+INSERT INTO funcionarios (cod_f, nome, idade, cidade, salario, cpf)
+     VALUES (4, 'Carlos', 44, 'Florianópolis', 1200, 51000110000);
+INSERT INTO funcionarios (cod_f, nome, idade, cidade, salario, cpf)
+     VALUES (5, 'Paula', 33, 'Florianópolis', 2500, 61000111000);
+
+INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
+     VALUES (1, 1, 1, '2016/10/12', '14:00');
+INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
+     VALUES (2, 1, 4, '2016/10/13', '10:00');
+INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
+     VALUES (3, 2, 1, '2016/10/13', '9:00');
+INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
+     VALUES (4, 2, 2, '2016/10/13', '11:00');
+INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
+     VALUES (5, 2, 3, '2016/10/14', '14:00');
+INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
+     VALUES (6, 2, 4, '2016/10/14', '17:00');
+INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
+     VALUES (7, 3, 1, '2016/10/19', '18:00');
+INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
+     VALUES (8, 3, 3, '2016/10/12', '10:00');
+INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
+     VALUES (9, 3, 4, '2016/10/19', '13:00');
+INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
+     VALUES (10, 4, 4, '2016/10/20', '13:00');
+INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
+     VALUES (11, 4, 4, '2016/10/22', '19:30');
+
+UPDATE pacientes
+   SET cidade = 'Ilhota'
+ WHERE nome = 'Paulo';
+
+UPDATE consultas
+   SET data = '2016/11/04', hora = '12:00'
+ WHERE cod_m = 1 AND cod_p = 4;
+
+UPDATE pacientes
+   SET doenca = 'câncer'
+ WHERE nome = 'Ana';
+
+UPDATE consultas
+   SET hora = hora + '01:30'
+ WHERE cod_m = 3 AND cod_p = 4;
+
+DELETE FROM funcionarios
+      WHERE cod_f = 4;
+
+DELETE FROM consultas
+      WHERE hora = '19:00';
+
+-- DELETE FROM pacientes
+--       WHERE idade < 10 OR doenca = 'câncer';
+
+DELETE FROM medicos
+      WHERE cidade = 'Biguaçu' OR cidade = 'Palhoça';
+
+SELECT *  -- 1
+  FROM ambulatorios
+ WHERE capacidade > 30;
+
+SELECT *  -- 2
+  FROM medicos
+ WHERE idade < 40 OR especialidade = 'traumatologia';
+
+SELECT cod_m, cod_p  -- 3
+  FROM consultas
+ WHERE hora >= '13:00' AND data > '2016/10/12';
+
+SELECT nome, idade  -- 4
+  FROM pacientes
+ WHERE cidade != 'Florianópolis';
+
+SELECT nome, idade * 12 AS idade  -- 5
+  FROM pacientes;
+
+SELECT MIN(salario) AS menor_salario, MAX(salario) AS maior_salario  -- 6
+  FROM funcionarios
+ WHERE cidade = 'Florianópolis';
