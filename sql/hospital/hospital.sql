@@ -145,7 +145,7 @@ SELECT cod_m, cod_p  -- 3
 
 SELECT nome, idade  -- 4
   FROM pacientes
- WHERE cidade != 'Florianópolis';
+ WHERE cidade NOT 'Florianópolis';
 
 SELECT nome, idade * 12 AS idade  -- 5
   FROM pacientes;
@@ -153,3 +153,30 @@ SELECT nome, idade * 12 AS idade  -- 5
 SELECT MIN(salario) AS menor_salario, MAX(salario) AS maior_salario  -- 6
   FROM funcionarios
  WHERE cidade = 'Florianópolis';
+
+  SELECT hora  -- 7
+    FROM consultas
+   WHERE data = '2016/10/12'
+ORDER BY cod_c DESC LIMIT 1;
+
+SELECT DISTINCT AVG(idade), COUNT(nroa)  -- 8
+  FROM medicos;
+
+SELECT cod_f, nome, salario - 0.20 * salario as salario  -- 9
+  FROM funcionarios;
+
+SELECT nome  -- 10
+  FROM funcionarios
+ WHERE nome LIKE '%a';
+
+SELECT nome, especialidade  -- 11
+  FROM medicos
+ WHERE nome LIKE '_o%o';
+
+SELECT cod_p, nome  -- 12
+  FROM pacientes
+ WHERE idade > 25 AND (doenca = 'tendinite' OR doenca = 'fratura' OR doenca = 'gripe' OR doenca = 'sarampo');
+
+-- SELECT cpf  -- 13
+--   FROM medicos, pacientes, funcionarios
+--  WHERE cidade = 'Florianópolis';
