@@ -50,58 +50,58 @@ INSERT INTO ambulatorios (nroa, andar, capacidade) VALUES (4, 2, 25);
 INSERT INTO ambulatorios (nroa, andar, capacidade) VALUES (5, 2, 55);
 
 INSERT INTO medicos (cod_m, nome, idade, especialidade, cpf, cidade, nroa)
-     VALUES (1, 'João', 40, 'ortopedia', 10000100000, 'Florianópolis', 1);
+VALUES (1, 'João', 40, 'ortopedia', 10000100000, 'Florianópolis', 1);
 INSERT INTO medicos (cod_m, nome, idade, especialidade, cpf, cidade, nroa)
-     VALUES (2, 'Maria', 42, 'traumatologia', 10000110000, 'Blumenau', 2);
+VALUES (2, 'Maria', 42, 'traumatologia', 10000110000, 'Blumenau', 2);
 INSERT INTO medicos (cod_m, nome, idade, especialidade, cpf, cidade, nroa)
-     VALUES (3, 'Pedro', 51, 'pediatria', 11000100000, 'São José', 2);
+VALUES (3, 'Pedro', 51, 'pediatria', 11000100000, 'São José', 2);
 INSERT INTO medicos (cod_m, nome, idade, especialidade, cpf, cidade)
-     VALUES (4, 'Carlos', 28, 'ortopedia', 11000110000, 'Joinville');
+VALUES (4, 'Carlos', 28, 'ortopedia', 11000110000, 'Joinville');
 INSERT INTO medicos (cod_m, nome, idade, especialidade, cpf, cidade, nroa)
-     VALUES (5, 'Márcia', 33, 'neurologia', 10000111000, 'Biguaçu', 3);
+VALUES (5, 'Márcia', 33, 'neurologia', 10000111000, 'Biguaçu', 3);
 
 INSERT INTO pacientes (cod_p, nome, idade, cidade, cpf, doenca)
-     VALUES (1, 'Ana', 20, 'Florianópolis', 20000200000, 'gripe');
+VALUES (1, 'Ana', 20, 'Florianópolis', 20000200000, 'gripe');
 INSERT INTO pacientes (cod_p, nome, idade, cidade, cpf, doenca)
-     VALUES (2, 'Paulo', 24, 'Palhoça', 20000220000, 'gripe');
+VALUES (2, 'Paulo', 24, 'Palhoça', 20000220000, 'gripe');
 INSERT INTO pacientes (cod_p, nome, idade, cidade, cpf, doenca)
-     VALUES (3, 'Lucia', 30, 'Biguaçu', 22000220000, 'gripe');
+VALUES (3, 'Lucia', 30, 'Biguaçu', 22000220000, 'gripe');
 INSERT INTO pacientes (cod_p, nome, idade, cidade, cpf, doenca)
-     VALUES (4, 'Carlos', 38, 'Joinville', 11000110000, 'gripe');
+VALUES (4, 'Carlos', 38, 'Joinville', 11000110000, 'gripe');
 
 INSERT INTO funcionarios (cod_f, nome, idade, cidade, salario, cpf)
-     VALUES (1, 'Rita', 32, 'São José', 1200, 20000100000);
+VALUES (1, 'Rita', 32, 'São José', 1200, 20000100000);
 INSERT INTO funcionarios (cod_f, nome, idade, cidade, salario, cpf)
-     VALUES (2, 'Maria', 55, 'Palhoça', 1220, 30000110000);
+VALUES (2, 'Maria', 55, 'Palhoça', 1220, 30000110000);
 INSERT INTO funcionarios (cod_f, nome, idade, cidade, salario, cpf)
-     VALUES (3, 'Carlo', 45, 'Florianópolis', 1100, 41000100000);
+VALUES (3, 'Carlo', 45, 'Florianópolis', 1100, 41000100000);
 INSERT INTO funcionarios (cod_f, nome, idade, cidade, salario, cpf)
-     VALUES (4, 'Carlos', 44, 'Florianópolis', 1200, 51000110000);
+VALUES (4, 'Carlos', 44, 'Florianópolis', 1200, 51000110000);
 INSERT INTO funcionarios (cod_f, nome, idade, cidade, salario, cpf)
-     VALUES (5, 'Paula', 33, 'Florianópolis', 2500, 61000111000);
+VALUES (5, 'Paula', 33, 'Florianópolis', 2500, 61000111000);
 
 INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
-     VALUES (1, 1, 1, '2016/10/12', '14:00');
+VALUES (1, 1, 1, '2016/10/12', '14:00');
 INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
-     VALUES (2, 1, 4, '2016/10/13', '10:00');
+VALUES (2, 1, 4, '2016/10/13', '10:00');
 INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
-     VALUES (3, 2, 1, '2016/10/13', '9:00');
+VALUES (3, 2, 1, '2016/10/13', '9:00');
 INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
-     VALUES (4, 2, 2, '2016/10/13', '11:00');
+VALUES (4, 2, 2, '2016/10/13', '11:00');
 INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
-     VALUES (5, 2, 3, '2016/10/14', '14:00');
+VALUES (5, 2, 3, '2016/10/14', '14:00');
 INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
-     VALUES (6, 2, 4, '2016/10/14', '17:00');
+VALUES (6, 2, 4, '2016/10/14', '17:00');
 INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
-     VALUES (7, 3, 1, '2016/10/19', '18:00');
+VALUES (7, 3, 1, '2016/10/19', '18:00');
 INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
-     VALUES (8, 3, 3, '2016/10/12', '10:00');
+VALUES (8, 3, 3, '2016/10/12', '10:00');
 INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
-     VALUES (9, 3, 4, '2016/10/19', '13:00');
+VALUES (9, 3, 4, '2016/10/19', '13:00');
 INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
-     VALUES (10, 4, 4, '2016/10/20', '13:00');
+VALUES (10, 4, 4, '2016/10/20', '13:00');
 INSERT INTO consultas (cod_c, cod_m, cod_p, data, hora)
-     VALUES (11, 4, 4, '2016/10/22', '19:30');
+VALUES (11, 4, 4, '2016/10/22', '19:30');
 
 UPDATE pacientes
    SET cidade = 'Ilhota'
@@ -180,3 +180,91 @@ SELECT cod_p, nome  -- 12
 -- SELECT cpf  -- 13
 --   FROM medicos, pacientes, funcionarios
 --  WHERE cidade = 'Florianópolis';
+
+SELECT DISTINCT medicos.nome, pacientes.cpf  -- 14a
+  FROM medicos, pacientes;
+
+SELECT nome, especialidade  -- 14b
+  FROM medicos
+ WHERE nroa = 1;
+
+SELECT medicos.nome, medicos.idade  -- 14c
+  FROM medicos, pacientes
+ WHERE pacientes.nome = 'Ana';
+
+SELECT nroa  -- 14d
+  FROM ambulatorios
+ WHERE andar = (
+    SELECT andar
+      FROM ambulatorios
+     WHERE nroa = 5
+);
+
+SELECT ambulatorios.nroa, andar  -- 15a
+  FROM ambulatorios
+ INNER JOIN medicos
+    ON ambulatorios.nroa = medicos.nroa
+ WHERE especialidade = 'ortopedia';
+
+SELECT cod_f, funcionarios.nome, cod_m, medicos.nome  -- 15b
+  FROM funcionarios
+ INNER JOIN medicos
+    ON medicos.cidade = funcionarios.cidade;
+
+SELECT DISTINCT medicos.cod_m, medicos.nome  -- 15c
+  FROM medicos
+ INNER JOIN consultas
+    ON medicos.cod_m = consultas.cod_m
+ WHERE consultas.hora < '12:00' AND medicos.idade < (
+    SELECT idade
+      FROM medicos
+     WHERE nome = 'Pedro'
+ );
+
+SELECT nome, salario  -- 15d
+  FROM funcionarios
+ WHERE cidade = (
+    SELECT cidade
+      FROM funcionarios
+     WHERE nome = 'Carlo'
+ ) AND salario > (
+    SELECT salario
+      FROM funcionarios
+     WHERE nome = 'Carlo'
+ );
+
+SELECT DISTINCT pacientes.cod_p, pacientes.nome  -- 16a
+  FROM pacientes
+ INNER JOIN consultas
+    ON consultas.cod_p = pacientes.cod_p
+ WHERE consultas.hora > '14:00';
+
+SELECT ambulatorios.nroa, ambulatorios.andar  -- 16b
+  FROM ambulatorios
+ INNER JOIN medicos
+    ON medicos.nroa = ambulatorios.nroa
+ INNER JOIN consultas
+    ON consultas.cod_m = medicos.cod_m
+ WHERE consultas.data = '2016/10/19';
+
+SELECT medicos.nome, medicos.cpf, medicos.especialidade  -- 16c
+  FROM consultas
+ INNER JOIN medicos
+    ON consultas.cod_m = medicos.cod_m
+ INNER JOIN pacientes
+    ON consultas.cod_p = pacientes.cod_p
+ WHERE doenca = 'câncer';
+
+SELECT ambulatorios.nroa, andar, capacidade, medicos.cod_m, nome  -- 17a
+  FROM ambulatorios
+   FULL OUTER JOIN medicos
+    ON medicos.nroa = ambulatorios.nroa
+
+-- SELECT medicos.cpf, medicos.nome  -- 17b
+--   FROM medicos
+--  OUTER JOIN (
+--      SELECT pacientes.nome, pacientes.cpf, consultas.data
+--        FROM pacientes
+--       INNER JOIN consultas
+--          ON pacientes.cod_p = consultas.cod_p
+--   )
