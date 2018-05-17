@@ -47,7 +47,7 @@ INSERT INTO ambulatorios (nroa, andar, capacidade) VALUES (1, 1, 30);
 INSERT INTO ambulatorios (nroa, andar, capacidade) VALUES (2, 1, 50);
 INSERT INTO ambulatorios (nroa, andar, capacidade) VALUES (3, 2, 40);
 INSERT INTO ambulatorios (nroa, andar, capacidade) VALUES (4, 2, 25);
-INSERT INTO ambulatorios (nroa, andar, capacidade) VALUES (5, 2, 55);
+INSERT INTO ambulatorios (nroa, andar, capacidade) VALUES (5, 2, 15);
 
 INSERT INTO medicos (cod_m, nome, idade, especialidade, cpf, cidade, nroa)
 VALUES (1, 'João', 40, 'ortopedia', 10000100000, 'Florianópolis', 1);
@@ -258,7 +258,7 @@ SELECT medicos.nome, medicos.cpf, medicos.especialidade  -- 16c
 SELECT ambulatorios.nroa, andar, capacidade, medicos.cod_m, nome  -- 17a
   FROM ambulatorios
    FULL OUTER JOIN medicos
-    ON medicos.nroa = ambulatorios.nroa
+    ON medicos.nroa = ambulatorios.nroa;
 
 -- SELECT medicos.cpf, medicos.nome  -- 17b
 --   FROM medicos
@@ -268,3 +268,111 @@ SELECT ambulatorios.nroa, andar, capacidade, medicos.cod_m, nome  -- 17a
 --       INNER JOIN consultas
 --          ON pacientes.cod_p = consultas.cod_p
 --   )
+
+-- Nested queries
+SELECT pacientes.nome, pacientes.cpf  -- 1
+  FROM pacientes
+ WHERE pacientes.cpf IN (
+     SELECT cpf
+     FROM medicos
+ );
+
+SELECT DISTINCT pacientes.nome, pacientes.cod_p  -- 2
+  FROM pacientes
+ INNER JOIN consultas
+    ON consultas.cod_p = pacientes.cod_p
+ WHERE consultas.hora NOT IN (
+     SELECT consultas.hora
+       FROM consultas
+      WHERE hora > '14:00'
+ );
+
+SELECT medicos.nome, medicos.idade  -- 3
+  FROM medicos
+ INNER JOIN consultas
+    ON consultas.cod_m = medicos.cod_m
+ INNER JOIN pacientes
+    ON pacientes.cod_p = consultas.cod_p
+ WHERE pacientes.nome NOT IN (
+     SELECT nome
+       FROM pacientes
+      WHERE nome != 'Ana'
+ );
+
+SELECT nroa, andar  -- 4
+  FROM ambulatorios
+ WHERE nroa NOT IN (
+     SELECT nroa
+       FROM medicos
+ );
+
+SELECT nroa, andar  -- 5
+  FROM ambulatorios
+ WHERE capacidade = ANY (
+     SELECT capacidade
+       FROM ambulatorios
+      WHERE capacidade > (
+          SELECT MIN(capacidade)
+            FROM ambulatorios
+      )
+ );
+
+SELECT nome, idade  -- 6
+  FROM medicos
+ WHERE idade = ANY (
+     SELECT idade
+       FROM medicos
+      ORDER BY idade ASC
+      LIMIT 1
+ );
+
+SELECT nome, cpf  -- 7
+  FROM pacientes
+ INNER JOIN consultas
+    ON consultas.cod_p = pacientes.cod_p
+ WHERE consultas.data < ANY (
+     SELECT data
+       FROM consultas
+      WHERE data < '2016/10/14'
+ );
+
+SELECT medicos.nome, medicos.cpf  -- 8
+  FROM medicos
+ INNER JOIN ambulatorios
+    ON medicos.nroa = ambulatorios.nroa
+ WHERE capacidade > ALL (
+     SELECT capacidade
+       FROM ambulatorios
+      WHERE andar = 2
+ );
+
+-- SELECT medicos.nome, medicos.cpf  -- 9
+--   FROM medicos
+--  WHERE EXISTS (
+--      SELECT pacientes.cpf
+--        FROM pacientes
+--       INNER JOIN medicos
+--          ON medicos.cpf = pacientes.cpf
+--  )
+
+SELECT DISTINCT e.nome, e.cidade  -- 11
+  FROM (
+      SELECT *
+        FROM consultas
+       INNER JOIN medicos
+          ON medicos.cod_m = consultas.cod_m
+       WHERE especialidade = 'ortopedia'
+  ) AS e;
+
+SELECT e.nome, e.cpf  -- 12
+  FROM (
+      SELECT *
+        FROM ambulatorios
+       INNER JOIN medicos
+          ON ambulatorios.nroa = medicos.nroa
+       WHERE ambulatorios.nroa = (
+           SELECT medicos.nroa
+             FROM medicos
+            WHERE medicos.nome = 'Pedro'
+       )
+  ) AS e;
