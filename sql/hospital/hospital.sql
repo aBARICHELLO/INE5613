@@ -376,3 +376,22 @@ SELECT e.nome, e.cpf  -- 12
             WHERE medicos.nome = 'Pedro'
        )
   ) AS e;
+
+-- View para data da consulta, hora da consulta, nome do paciente, nome do médico, doença do paciente, nome do medicamento
+CREATE VIEW dados_consultas AS
+SELECT pacientes.nome AS pacientes_nome, medicos.nome AS medicos_nome, doenca, consultas.data, consultas.hora
+  FROM consultas
+ INNER JOIN pacientes ON consultas.cod_p = pacientes.cod_p
+ INNER JOIN medicos ON consultas.cod_m = medicos.cod_m;
+
+-- SELECT *  -- print view
+--   FROM dados_consultas;
+
+ALTER TABLE consultas
+  ADD prescricao JSONB;
+
+UPDATE consultas,
+   SET prescricao = ('{
+       "nome_medicamento": "",
+       "posologia": "",
+       "duracao_tratamento": ""}')
