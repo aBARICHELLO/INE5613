@@ -396,3 +396,31 @@ SELECT pacientes.nome AS pacientes_nome, medicos.nome AS medicos_nome, prescrica
 
 SELECT *  -- print view
   FROM dados_consultas;
+
+ALTER TABLE ambulatorios
+  ADD added timestamp DEFAULT now();
+ALTER TABLE consultas
+  ADD added timestamp DEFAULT now();
+ALTER TABLE funcionarios
+  ADD added timestamp DEFAULT now();
+ALTER TABLE medicos
+  ADD added timestamp DEFAULT now();
+ALTER TABLE pacientes
+  ADD added timestamp DEFAULT now();
+
+CREATE OR REPLACE FUNCTION registra_log() RETURNS TRIGGER AS $body$
+DECLARE dados_antigos TEXT; dados_novos TEXT;
+BEGIN
+    IF (TG_OP = 'UPDATE') THEN
+        dados_antigos := ROW(OLD.*); dados_novos := ROW(NEW.*);
+        INSERT INTO log VALUES (dados_antigos, dados_novos); RETURN NEW;
+    ELSIF (TG_OP = 'DELETE') THEN
+        dados_antigos := ROW(OLD.*);
+        INSERT INTO log VALUES (dados_antigos, DEFAULT); RETURN OLD;
+    ELSIF (TG_OP = 'INSERT') THEN
+        dados_novos := ROW(NEW.*);
+        INSERT INTO log VALUES (DEFAULT, dados_novos); RETURN NEW;
+    END IF;
+END;
+$body$
+LANGUAGE plpgsql;
