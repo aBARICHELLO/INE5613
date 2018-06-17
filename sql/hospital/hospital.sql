@@ -1,5 +1,12 @@
---PostgreSQL 9.6
---'\\' is a delimiter
+-- PostgreSQL 9.6
+
+CREATE TABLESPACE indices LOCATION '/run/postgresql/indices';
+CREATE TABLESPACE dados LOCATION '/run/postgresql/dados';
+
+CREATE DATABASE hospital COLLATE utf8_general_ci;
+
+CREATE SCHEMA IF NOT EXISTS cadastros;
+CREATE SCHEMA IF NOT EXISTS consultas;
 
 CREATE TABLE ambulatorios (
     nroa            INT                 PRIMARY KEY,
@@ -13,8 +20,7 @@ CREATE TABLE medicos (
     idade           SMALLINT,
     especialidade   CHAR(20)            NOT NULL,
     cpf             NUMERIC(11)         NOT NULL,
-    cidade          VARCHAR(30)         NOT NULL,
-    nroa            INT                 REFERENCES ambulatorios(nroa)
+    cidade          VARCHAR(30)         NOT NULL
 );
 
 CREATE TABLE pacientes (
@@ -30,7 +36,7 @@ CREATE TABLE funcionarios (
     cod_f           INT                 PRIMARY KEY,
     nome            VARCHAR(40)         NOT NULL,
     idade           SMALLINT            NOT NULL UNIQUE CONSTRAINT idade_positiva CHECK (idade > 0),
-    cpf             NUMERIC(11)         NOT NULL,
+    cpf             NUMERIC(11)         NOT NULL UNIQUE,
     cidade          VARCHAR(30)         NOT NULL,
     salario         NUMERIC(10)         NOT NULL UNIQUE CONSTRAINT salario_positivo CHECK (salario > 0)
 );
@@ -42,6 +48,15 @@ CREATE TABLE consultas (
     data            DATE,
     hora            TIME
 );
+
+ALTER TABLE funcionarios
+ DROP COLUMN nroa;
+
+ALTER TABLE funcionarios
+ DROP COLUMN cargo;
+
+ALTER TABLE medicos
+  ADD COLUMN nroa INT REFERENCES ambulatorios(nroa);
 
 INSERT INTO ambulatorios (nroa, andar, capacidade) VALUES (1, 1, 30);
 INSERT INTO ambulatorios (nroa, andar, capacidade) VALUES (2, 1, 50);
@@ -120,16 +135,16 @@ UPDATE consultas
  WHERE cod_m = 3 AND cod_p = 4;
 
 DELETE FROM funcionarios
-      WHERE cod_f = 4;
+ WHERE cod_f = 4;
 
 DELETE FROM consultas
-      WHERE hora = '19:00';
+ WHERE hora = '19:00';
 
 -- DELETE FROM pacientes
 --       WHERE idade < 10 OR doenca = 'câncer';
 
 DELETE FROM medicos
-      WHERE cidade = 'Biguaçu' OR cidade = 'Palhoça';
+ WHERE cidade = 'Biguaçu' OR cidade = 'Palhoça';
 
 SELECT *  -- 1
   FROM ambulatorios
@@ -145,7 +160,7 @@ SELECT cod_m, cod_p  -- 3
 
 SELECT nome, idade  -- 4
   FROM pacientes
- WHERE cidade NOT 'Florianópolis';
+ WHERE cidade != 'Florianópolis';
 
 SELECT nome, idade * 12 AS idade  -- 5
   FROM pacientes;
@@ -376,6 +391,17 @@ SELECT e.nome, e.cpf  -- 12
             WHERE medicos.nome = 'Pedro'
        )
   ) AS e;
+
+CREATE SEQUENCE IF NOT EXISTS seq START 0;
+
+ALTER TABLE ambulatorios
+ALTER COLUMN nroa DEFAULT nextval('seq')
+ALTER TABLE medicos
+ALTER COLUMN cod_m DEFAULT nextval('seq')
+ALTER TABLE pacientes
+ALTER COLUMN cod_p DEFAULT nextval('seq')
+ALTER TABLE funcionarios
+ALTER COLUMN cod_f DEFAULT nextval('seq')
 
 ALTER TABLE consultas
   ADD prescricao JSONB;
