@@ -1,20 +1,20 @@
 -- PostgreSQL 9.6
 
-CREATE TABLESPACE indices LOCATION '/run/postgresql/indices';
-CREATE TABLESPACE dados LOCATION '/run/postgresql/dados';
+CREATE TABLESPACE indices LOCATION '~/postgresql/indices';
+CREATE TABLESPACE dados LOCATION '~/postgresql/dados';
 
 CREATE DATABASE hospital COLLATE utf8_general_ci;
 
 CREATE SCHEMA IF NOT EXISTS cadastros;
 CREATE SCHEMA IF NOT EXISTS consultas;
 
-CREATE TABLE ambulatorios (
+CREATE TABLE IF NOT EXISTS ambulatorios (
     nroa            INT                 PRIMARY KEY,
-    andar           NUMERIC(3)          NOT NULL CONSTRAINT andar_positivo CHECK (andar > 0),
-    capacidade      SMALLINT            NOT NULL CONSTRAINT idade_positiva CHECK (capacidade > 0)
+    andar           NUMERIC(3)          NOT NULL,
+    capacidade      SMALLINT            NOT NULL
 );
 
-CREATE TABLE medicos (
+CREATE TABLE IF NOT EXISTS medicos (
     cod_m           INT                 PRIMARY KEY,
     nome            VARCHAR(40)         NOT NULL,
     idade           SMALLINT,
@@ -23,7 +23,7 @@ CREATE TABLE medicos (
     cidade          VARCHAR(30)         NOT NULL
 );
 
-CREATE TABLE pacientes (
+CREATE TABLE IF NOT EXISTS pacientes (
     cod_p           INT                 PRIMARY KEY,
     nome            VARCHAR(40)         NOT NULL,
     idade           SMALLINT            NOT NULL,
@@ -32,16 +32,18 @@ CREATE TABLE pacientes (
     doenca          VARCHAR(40)
 );
 
-CREATE TABLE funcionarios (
+CREATE TABLE IF NOT EXISTS funcionarios (
     cod_f           INT                 PRIMARY KEY,
     nome            VARCHAR(40)         NOT NULL,
-    idade           SMALLINT            NOT NULL UNIQUE CONSTRAINT idade_positiva CHECK (idade > 0),
-    cpf             NUMERIC(11)         NOT NULL UNIQUE,
+    idade           SMALLINT            NOT NULL,
+    cpf             NUMERIC(11)         NOT NULL,
     cidade          VARCHAR(30)         NOT NULL,
-    salario         NUMERIC(10)         NOT NULL UNIQUE CONSTRAINT salario_positivo CHECK (salario > 0)
+    salario         NUMERIC(10)         NOT NULL ,
+    cargo           TEXT,
+    nroa            INT                 REFERENCES ambulatorios(nroa)
 );
 
-CREATE TABLE consultas (
+CREATE TABLE IF NOT EXISTS consultas (
     cod_c           SERIAL              PRIMARY KEY,
     cod_m           INT                 REFERENCES medicos(cod_m),
     cod_p           INT                 REFERENCES pacientes(cod_p),
@@ -50,13 +52,28 @@ CREATE TABLE consultas (
 );
 
 ALTER TABLE funcionarios
- DROP COLUMN nroa;
+ DROP COLUMN IF EXISTS nroa;
 
 ALTER TABLE funcionarios
- DROP COLUMN cargo;
+ DROP COLUMN IF EXISTS cargo;
 
 ALTER TABLE medicos
-  ADD COLUMN nroa INT REFERENCES ambulatorios(nroa);
+  ADD COLUMN IF NOT EXISTS nroa INT REFERENCES ambulatorios(nroa);
+
+ALTER TABLE ambulatorios
+  ADD CONSTRAINT andar_positivo CHECK (andar > 0);
+
+ALTER TABLE ambulatorios
+  ADD CONSTRAINT capacidade_positiva CHECK (capacidade > 0);
+
+ALTER TABLE funcionarios
+  ADD CONSTRAINT salario_positivo CHECK (salario > 0);
+
+ALTER TABLE funcionarios
+  ADD CONSTRAINT idade_positiva CHECK (idade > 0);
+
+ALTER TABLE funcionarios
+  ADD CONSTRAINT cpf_unico UNIQUE (cpf);
 
 INSERT INTO ambulatorios (nroa, andar, capacidade) VALUES (1, 1, 30);
 INSERT INTO ambulatorios (nroa, andar, capacidade) VALUES (2, 1, 50);
